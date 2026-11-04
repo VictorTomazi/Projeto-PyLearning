@@ -13,7 +13,7 @@ from contextlib import asynccontextmanager
 from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
-from sqlalchemy import func, update
+from sqlalchemy import func, update, desc  # Adicionado o 'desc' para o ranking
 from sqlalchemy.orm import Session
 
 from database import Base, engine, get_db
@@ -37,7 +37,6 @@ app = FastAPI(
 )
 
 # CORS: permite que o frontend (em outra porta) chame esta API pelo navegador.
-# Ajuste a variável CORS_ORIGINS (separada por vírgulas) conforme seu frontend.
 origens_permitidas = os.getenv("CORS_ORIGINS", "http://localhost:3000,http://localhost:5173").split(",")
 app.add_middleware(
     CORSMiddleware,
@@ -53,7 +52,8 @@ app.add_middleware(
 class ExecutarRequest(BaseModel):
     usuario_id: int = Field(gt=0, description="ID do aluno")
     licao_id: int = Field(gt=0, description="ID da lição sendo resolvida")
-    codigo: str = Field(min_length=1, max_length=MAX_CODIGO_CHARS, description="Código Python do aluno")
+    # Agora o campo 'codigo' vai receber código Python OU a letra (A, B, C) das objetivas
+    codigo: str = Field(min_length=1, max_length=MAX_CODIGO_CHARS, description="Resposta ou Código do aluno")
 
 
 class ExecutarResponse(BaseModel):
@@ -67,20 +67,27 @@ class ExecutarResponse(BaseModel):
 
 
 # --------------------------------------------------------------------------
-# Rotas
+# Rotas Novas (Trilha e Ranking)
 # --------------------------------------------------------------------------
-# Esta rota usa `def` (e não `async def` de propósito): o sandbox bloqueia por
-# até 3 segundos esperando o subprocesso. Com `def`, o FastAPI executa a função
-# em uma thread separada e o servidor continua atendendo outras requisições.
+
+@app.get("/api/licoes")
+def listar_licoes(db: Session = Depends(get_db)):
+    """Devolve todas as lições cadastradas, ordenadas por módulo."""
+    return db.query(Licao).order_by(Licao.id_modulo, Licao.id).all()
+
+
+@app.get("/api/ranking")
+def obter_ranking(db: Session = Depends(get_db)):
+    """Devolve o Top 10 usuários com mais XP."""
+    return db.query(Usuario).order_by(desc(Usuario.xp)).limit(10).all()
+
+
+# --------------------------------------------------------------------------
+# Rota Principal de Correção e Execução
+# --------------------------------------------------------------------------
 @app.post("/api/executar", response_model=ExecutarResponse)
 def executar(dados: ExecutarRequest, db: Session = Depends(get_db)) -> ExecutarResponse:
-    """
-    Executa o código do aluno no sandbox e atualiza XP/vidas:
-
-    - ACERTOU            -> soma o `xp_recompensa` da lição ao XP do aluno.
-    - ERROU ou TIMEOUT   -> o aluno perde 1 vida (mínimo 0).
-    - BLOQUEADO          -> nada é executado e nada é descontado.
-    """
+    
     usuario = db.get(Usuario, dados.usuario_id)
     if usuario is None:
         raise HTTPException(status.HTTP_404_NOT_FOUND, "Usuário não encontrado.")
@@ -92,18 +99,43 @@ def executar(dados: ExecutarRequest, db: Session = Depends(get_db)) -> ExecutarR
     if usuario.vidas <= 0:
         raise HTTPException(status.HTTP_403_FORBIDDEN, "Você ficou sem vidas. Tente novamente mais tarde.")
 
-    # Etapa lenta (até 3s) — executada ANTES de qualquer escrita no banco.
-    resultado = executar_codigo(dados.codigo, licao.gabarito_saida)
+    # 1. Roteamento Inteligente: Avalia o tipo da lição antes de corrigir
+    if licao.tipo == "TEORIA":
+        # Não roda nada, só dá o XP de leitura
+        acertou = True
+        status_exec = StatusExecucao.ACERTOU
+        saida = "Leitura concluída"
+        mensagem = "Teoria finalizada com sucesso!"
+        
+    elif licao.tipo == "OBJETIVA":
+        # Compara a alternativa escolhida (dados.codigo) com o gabarito (A, B, C)
+        if dados.codigo.strip().upper() == licao.gabarito_saida.strip().upper():
+            acertou = True
+            status_exec = StatusExecucao.ACERTOU
+            saida = f"Alternativa enviada: {dados.codigo}"
+            mensagem = "Alternativa correta!"
+        else:
+            acertou = False
+            status_exec = StatusExecucao.ERROU
+            saida = f"Alternativa enviada: {dados.codigo}"
+            mensagem = "Alternativa incorreta."
+            
+    else:
+        # PRATICA: Envia para o Sandbox (Código original da IA)
+        resultado = executar_codigo(dados.codigo, licao.gabarito_saida)
+        acertou = resultado.acertou
+        status_exec = resultado.status
+        saida = resultado.saida
+        mensagem = resultado.mensagem
 
-    # UPDATEs atômicos feitos pelo próprio banco (`xp = xp + N`) evitam perda de
-    # dados caso o mesmo aluno envie duas requisições ao mesmo tempo.
+    # 2. UPDATEs Atômicos de XP e Vidas (Seu código excelente mantido)
     xp_ganho = 0
-    if resultado.status is StatusExecucao.ACERTOU:
+    if status_exec is StatusExecucao.ACERTOU:
         xp_ganho = licao.xp_recompensa
         db.execute(
             update(Usuario).where(Usuario.id == usuario.id).values(xp=Usuario.xp + xp_ganho)
         )
-    elif resultado.status in (StatusExecucao.ERROU, StatusExecucao.TIMEOUT):
+    elif status_exec in (StatusExecucao.ERROU, StatusExecucao.TIMEOUT):
         db.execute(
             update(Usuario)
             .where(Usuario.id == usuario.id)
@@ -111,20 +143,19 @@ def executar(dados: ExecutarRequest, db: Session = Depends(get_db)) -> ExecutarR
         )
 
     db.commit()
-    db.refresh(usuario)  # Recarrega os valores atualizados
+    db.refresh(usuario)
 
     return ExecutarResponse(
-        acertou=resultado.acertou,
-        status=resultado.status,
-        saida=resultado.saida,
-        mensagem=resultado.mensagem,
+        acertou=acertou,
+        status=status_exec,
+        saida=saida,
+        mensagem=mensagem,
         xp_ganho=xp_ganho,
         xp_total=usuario.xp,
         vidas_restantes=usuario.vidas,
     )
 
-
 if __name__ == "__main__":
     import uvicorn
-
     uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
+    
