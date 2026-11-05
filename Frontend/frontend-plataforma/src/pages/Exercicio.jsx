@@ -6,7 +6,7 @@ import '../App.css';
 import BarraDeProgresso from '../components/BarraDeProgresso';
 import './Exercicio.css';
 
-const API_URL = 'http://127.0.0.1:8000/api';
+const API_URL = 'https://pylearning-backend.onrender.com/api';
 const CODIGO_INICIAL = '# Escreva seu código aqui\n';
 
 const letra = (indice) => String.fromCharCode(65 + indice); 

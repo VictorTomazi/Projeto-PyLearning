@@ -1,0 +1,64 @@
+/* Barra verde fixa no topo; fica visível enquanto a página rola. */
+.cabecalho {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: #58cc02;
+  box-shadow: 0 4px 0 #46a302; /* Mesma sombra "grossa" dos botões 3D do site */
+  padding: 0 16px;
+}
+
+/* Botões em fila, centralizados na barra */
+.cabecalho-menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.cabecalho-botao {
+  background: transparent;
+  border: none;
+  border-bottom: 4px solid transparent;
+  color: #ffffff;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  padding: 18px 22px 14px;
+  cursor: pointer;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  transition: background-color 0.15s ease;
+}
+
+.cabecalho-botao:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.cabecalho-botao:active {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Página atual */
+.cabecalho-botao.ativo {
+  border-bottom-color: #ffffff;
+}
+
+.cabecalho-botao:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: -4px;
+}
+
+@media (max-width: 600px) {
+  .cabecalho {
+    padding: 0 6px;
+  }
+
+  .cabecalho-botao {
+    font-size: 13px;
+    padding: 14px 10px 10px;
+  }
+}

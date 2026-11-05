@@ -1,11 +1,20 @@
-/* Fundo fixo da tela inteira */
-.tela-fundo-trilha {
+/* A página é uma coluna: cabeçalho, área do mapa (cresce) e rodapé no fim */
+.pagina-trilha {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Fundo da tela inteira (a largura total depende do #root sem limite, ver index.css) */
+.tela-fundo-trilha {
+  flex: 1;
+  box-sizing: border-box;
+  background-color: #8fd36b; /* Cor de segurança enquanto a imagem carrega */
   background-image: url('/Fundo-Login.jpeg');
   background-size: cover;
   background-position: center;
-  background-attachment: fixed; /* Faz a imagem ficar parada enquanto você rola a página */
-  padding: 20px;
+  background-attachment: fixed; /* A imagem fica parada enquanto você rola a página */
+  padding: 30px 20px 40px;
 }
 
 /* Película translúcida para facilitar a leitura */
@@ -14,9 +23,19 @@
   margin: 0 auto;
   padding: 30px;
   font-family: sans-serif;
-  background-color: rgba(255, 255, 255, 0.6); /* Fundo branco com 85% de opacidade */
+  background-color: rgba(255, 255, 255, 0.6);
   border-radius: 20px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  scroll-margin-top: 90px; /* Deixa espaço para o cabeçalho fixo ao rolar até aqui */
+}
+
+/* Mensagens de carregamento/erro sobre a imagem */
+.aviso-trilha {
+  margin-top: 50px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #ffffff;
+  text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.6);
 }
 
 /* Container de cada botão e seu título */
@@ -38,7 +57,7 @@
   font-size: 32px;
   border: none;
   /* A sombra grossa embaixo é o que dá o efeito de peça de jogo */
-  box-shadow: 0 8px 0 #58A700; 
+  box-shadow: 0 8px 0 #58A700;
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -52,12 +71,27 @@
   box-shadow: 0 0 0 #58A700;
 }
 
+.botao-circular:focus-visible {
+  outline: 4px solid #1f2937;
+  outline-offset: 4px;
+}
+
 /* O título flutuante embaixo do botão */
 .titulo-licao {
   margin-top: 15px;
   font-size: 14px;
   font-weight: bold;
-  color: #777;
+  color: #555;
   text-align: center;
   max-width: 120px;
+}
+
+@media (max-width: 600px) {
+  .tela-fundo-trilha {
+    padding: 16px 10px 30px;
+  }
+
+  .conteudo-trilha {
+    padding: 18px 12px;
+  }
 }

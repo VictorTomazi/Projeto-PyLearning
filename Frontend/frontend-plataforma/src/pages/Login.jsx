@@ -17,7 +17,7 @@ export default function Login() {
     }
 
     try {
-      const resposta = await fetch('http://127.0.0.1:8000/api/login', {
+      const resposta = await fetch('https://pylearning-backend.onrender.com/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         // Enviando os dados exatamente como o banco vai pedir

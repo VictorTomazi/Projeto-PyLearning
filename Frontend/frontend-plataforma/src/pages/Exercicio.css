@@ -35,3 +35,42 @@
   cursor: pointer;
   width: 100%;
 }
+
+.area-exercicio-com-mascote {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* O mascote flutuante */
+.mascote-exercicio {
+  width: 130px;
+  height: auto;
+  flex-shrink: 0;
+  /* Animação suave de flutuação para dar vida ao personagem */
+  animation: flutuar 3s ease-in-out infinite;
+}
+
+@keyframes flutuar {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* Em telas menores (celular), ajusta o mascote para ficar acima da lição */
+@media (max-width: 600px) {
+  .area-exercicio-com-mascote {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+  
+  .mascote-exercicio {
+    width: 90px;
+  }
+}

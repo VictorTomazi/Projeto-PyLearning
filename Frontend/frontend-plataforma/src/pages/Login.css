@@ -1,11 +1,14 @@
-/* Garante que o fundo ocupe 100% da tela sem sobrar margens */
+/* Estilos compartilhados pelas telas de Login e de Registro. */
+
+/* Fundo ocupando 100% da tela; o formulário fica centralizado nela */
 .tela-fundo {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-image: url('/Fundo-Login.jpeg'); /* Ou o caminho da sua imagem */
+  display: flex; /* Com o `margin: auto` do formulário, centraliza na horizontal e na vertical */
+  background-image: url('/Fundo-Login.jpeg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -21,6 +24,8 @@
   align-items: center;
   width: 100%;
   max-width: 450px;
+  box-sizing: border-box;
+  margin: auto;
   padding: 20px;
   z-index: 1;
 }
@@ -86,10 +91,16 @@
   border-radius: 8px;
   margin-top: 5px;
   margin-bottom: 20px;
-  /* Cria o efeito 3D da imagem com uma borda sutil e sombra externa */
+  /* Cria o efeito 3D com uma borda sutil e sombra externa */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), inset 0 2px 4px rgba(0,0,0,0.05);
   overflow: hidden; /* Garante que o ícone verde respeite as bordas arredondadas */
   border: 1px solid #d1d5db;
+}
+
+/* Mostra qual campo está em uso (o input tem outline: none) */
+.campo-gamificado:focus-within {
+  border-color: #58CC02;
+  box-shadow: 0 0 0 3px rgba(88, 204, 2, 0.35);
 }
 
 /* 3. O Quadrado Verde do Ícone */
@@ -107,6 +118,7 @@
 /* 4. A Área de Digitação */
 .campo-gamificado input {
   flex-grow: 1;
+  min-width: 0;
   border: none;
   padding: 12px 15px;
   font-size: 16px;
@@ -115,43 +127,7 @@
   color: #333;
 }
 
-/* O "truque" para o ícone verde grudado no input branco */
-.input-com-icone {
-  display: flex;
-  background-color: white;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border: 1px solid #ccc;
-}
-
-.icone-fundo-verde {
-  background-color: #58CC02;
-  color: white;
-  padding: 10px 15px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 16px;
-}
-
-.input-com-icone input {
-  flex: 1;
-  border: none;
-  padding: 12px;
-  font-size: 16px;
-  outline: none;
-}
-
-/* Termos e botão */
-.texto-termos {
-  font-size: 12px;
-  text-align: center;
-  color: #000;
-  margin: 10px 0 20px 0;
-  line-height: 1.5;
-}
-
+/* Botão */
 .botao-entrar-arredondado {
   background-color: #58CC02;
   color: white;
@@ -168,6 +144,11 @@
 .botao-entrar-arredondado:active {
   transform: translateY(2px);
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+}
+
+.botao-entrar-arredondado:focus-visible {
+  outline: 3px solid #1f2937;
+  outline-offset: 3px;
 }
 
 /* Rodapé no fim da página */
