@@ -31,7 +31,6 @@ async function chamarApi(caminho, opcoes) {
 }
 
 export default function Exercicio() {
-  // O ID do utilizador agora é lido DENTRO do componente para estar sempre atualizado
   const usuarioId = localStorage.getItem('usuario_id') || 1;
 
   const [licoes, setLicoes] = useState([]);
@@ -58,7 +57,6 @@ export default function Exercicio() {
           chamarApi(`/usuarios/${usuarioId}`),
         ]);
         
-        // Filtra as lições para apanhar APENAS a etapa e módulo selecionados
         const licoesDaEtapa = listaLicoes.filter(
           l => l.id_etapa === etapaSelecionada && l.id_modulo === moduloSelecionado
         );
@@ -86,8 +84,24 @@ export default function Exercicio() {
     setErro('');
   }
 
-  // --- 1. BARREIRA DE SEGURANÇA INICIAL ---
-  // Impede que o código abaixo seja lido antes dos dados chegarem, evitando o erro de "undefined"
+  // --- FUNÇÃO ADICIONADA: RECOMEÇAR LIÇÃO ---
+  async function recomecarLicao() {
+    try {
+      // 1. Chama a nova rota do Render para devolver 5 vidas no banco
+      await chamarApi(`/usuarios/${usuarioId}/resetar-vidas`, { method: 'PUT' });
+
+      // 2. Atualiza os dados na tela para o aluno voltar a jogar imediatamente
+      setUsuario((atual) => ({ ...atual, vidas: 5 }));
+      setIndice(0); // Volta para a primeira pergunta da etapa
+      setResultado(null);
+      setEscolha(null);
+      setCodigo(CODIGO_INICIAL);
+      setErro('');
+    } catch (error) {
+      alert("Erro ao recomeçar a lição. Tente novamente.");
+    }
+  }
+
   if (!carregado || licoes.length === 0 || !usuario) {
     return (
       <main className="app">
@@ -96,14 +110,13 @@ export default function Exercicio() {
     );
   }
 
-  // A partir desta linha, temos a certeza absoluta que 'licoes' e 'usuario' existem.
   const concluido = indice >= licoes.length;
 
   async function enviar(resposta) {
     setEnviando(true);
     setErro('');
     try {
-      const licaoAtual = licoes[indice]; // Apanha a lição de forma segura no momento do envio
+      const licaoAtual = licoes[indice]; 
       const dados = await chamarApi('/executar', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -140,7 +153,6 @@ export default function Exercicio() {
     </header>
   );
 
-  // --- 2. BARREIRA DE CONCLUSÃO ---
   if (concluido) {
     return (
       <main className="app">
@@ -160,9 +172,10 @@ export default function Exercicio() {
     );
   }
 
-  // --- 3. RENDERIZAÇÃO DA LIÇÃO ATIVA ---
   const licao = licoes[indice]; 
   const acertou = resultado?.acertou === true;
+  
+  // Variável mágica que usamos para verificar o "Game Over"
   const semVidas = usuario.vidas <= 0;
 
   const rotuloBotao = { TEORIA: 'Entendi, avançar', OBJETIVA: 'Responder', PRATICA: 'Executar' }[licao.tipo];
@@ -191,53 +204,67 @@ export default function Exercicio() {
           className="mascote-exercicio" 
         />
 
-        <section className="cartao" key={`licao-${indice}`}>
-          <small className="etapa">
-            Módulo {licao.id_modulo} · Lição {indice + 1} de {licoes.length}
-          </small>
-          <h2>{licao.titulo}</h2>
-          <p className="enunciado">{licao.enunciado}</p>
-
-          {licao.tipo === 'OBJETIVA' && (
-            <div className="opcoes">
-              {/* Adicionado o '?' de segurança caso as opções venham vazias da base de dados */}
-              {licao.opcoes?.map((texto, i) => (
-                <button
-                  key={letra(i)}
-                  className={`opcao ${escolha === letra(i) ? 'selecionada' : ''}`}
-                  onClick={() => setEscolha(letra(i))}
-                  disabled={acertou || enviando || semVidas}
-                >
-                  <b>{letra(i)}</b> {texto}
-                </button>
-              ))}
-            </div>
-          )}
-
-          {licao.tipo === 'PRATICA' && <EditorDeCodigo value={codigo} onChange={setCodigo} />}
-
-          {acertou ? (
-            <button className="botao" onClick={proximaLicao}>
-              Próxima →
+        {/* --- A MÁGICA ACONTECE AQUI (A antiga "Parte C") --- */}
+        {semVidas ? (
+          
+          <section className="cartao" style={{ textAlign: 'center' }}>
+            <h2>Você perdeu todas as vidas! 💔</h2>
+            <p>Não desanime. A repetição é a chave para aprender Python.</p>
+            <button 
+              onClick={recomecarLicao} 
+              className="botao-entrar-arredondado" 
+              style={{ marginTop: '20px' }}
+            >
+              Recomeçar Lição
             </button>
-          ) : (
-            <button className="botao" onClick={responder} disabled={botaoDesabilitado}>
-              {enviando ? 'A enviar...' : rotuloBotao}
-            </button>
-          )}
+          </section>
 
-          {resultado && (
-            <div className={`feedback ${acertou ? 'ok' : 'erro'}`}>
-              {acertou ? '✅' : resultado.status === 'bloqueado' ? '⚠️' : '❌'} {resultado.mensagem}
-              {resultado.xp_ganho > 0 && ` +${resultado.xp_ganho} XP`}
-              {licao.tipo === 'PRATICA' && resultado.saida && <pre>Saída do seu código:{'\n'}{resultado.saida}</pre>}
-            </div>
-          )}
+        ) : (
+          
+          <section className="cartao" key={`licao-${indice}`}>
+            <small className="etapa">
+              Módulo {licao.id_modulo} · Lição {indice + 1} de {licoes.length}
+            </small>
+            <h2>{licao.titulo}</h2>
+            <p className="enunciado">{licao.enunciado}</p>
 
-          {semVidas && <div className="feedback erro">💔 Ficou sem vidas. Volte mais tarde!</div>}
-          {erro && <div className="feedback erro">{erro}</div>}
-        </section>
+            {licao.tipo === 'OBJETIVA' && (
+              <div className="opcoes">
+                {licao.opcoes?.map((texto, i) => (
+                  <button
+                    key={letra(i)}
+                    className={`opcao ${escolha === letra(i) ? 'selecionada' : ''}`}
+                    onClick={() => setEscolha(letra(i))}
+                    disabled={acertou || enviando}
+                  >
+                    <b>{letra(i)}</b> {texto}
+                  </button>
+                ))}
+              </div>
+            )}
 
+            {licao.tipo === 'PRATICA' && <EditorDeCodigo value={codigo} onChange={setCodigo} />}
+
+            {acertou ? (
+              <button className="botao" onClick={proximaLicao}>
+                Próxima →
+              </button>
+            ) : (
+              <button className="botao" onClick={responder} disabled={botaoDesabilitado}>
+                {enviando ? 'A enviar...' : rotuloBotao}
+              </button>
+            )}
+
+            {resultado && (
+              <div className={`feedback ${acertou ? 'ok' : 'erro'}`}>
+                {acertou ? '✅' : resultado.status === 'bloqueado' ? '⚠️' : '❌'} {resultado.mensagem}
+                {resultado.xp_ganho > 0 && ` +${resultado.xp_ganho} XP`}
+                {licao.tipo === 'PRATICA' && resultado.saida && <pre>Saída do seu código:{'\n'}{resultado.saida}</pre>}
+              </div>
+            )}
+          </section>
+        )}
+        
       </div>
     </main>
   );
