@@ -138,6 +138,18 @@ def obter_ranking(db: Session = Depends(get_db)):
     return db.scalars(select(Usuario).order_by(desc(Usuario.xp)).limit(10)).all()
 
 
+@app.put("/api/usuarios/{usuario_id}/resetar-vidas")
+def resetar_vidas(usuario_id: int, db: Session = Depends(get_db)):
+    """Restaura as vidas do aluno para 5 quando ele recomeça a lição."""
+    usuario = db.get(Usuario, usuario_id)
+    if usuario is None:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "Usuário não encontrado.")
+
+    usuario.vidas = 5
+    db.commit()
+
+    return {"mensagem": "Vidas restauradas", "vidas": usuario.vidas}
+
 # --------------------------------------------------------------------------
 # Rota principal de correção e execução
 # --------------------------------------------------------------------------
