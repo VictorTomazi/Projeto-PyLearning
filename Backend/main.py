@@ -39,6 +39,13 @@ app = FastAPI(
     version="0.3.0",
     lifespan=lifespan,
 )
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], # O asterisco permite qualquer site (ótimo para testes e TCC)
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # CORS: permite que o frontend (em outra porta) chame esta API pelo navegador.
 # Em desenvolvimento liberamos qualquer porta de localhost/127.0.0.1 (o Vite muda
