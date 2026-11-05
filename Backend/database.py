@@ -1,29 +1,21 @@
 """
 database.py — Configuração da conexão com o PostgreSQL usando SQLAlchemy 2.x.
-
-As credenciais são lidas de variáveis de ambiente (com valores padrão para
-desenvolvimento local). No PyCharm: Run > Edit Configurations > Environment
-variables, por exemplo:  DB_USER=postgres;DB_PASSWORD=minha_senha
-
-Por que `URL.create` em vez de uma string de conexão?
-Ele escapa automaticamente caracteres especiais na senha (como "@" ou "/"),
-o que evita erros difíceis de diagnosticar.
 """
 import os
 from typing import Generator
 
 from sqlalchemy import create_engine
-from sqlalchemy.engine import URL
 from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker
 
-DATABASE_URL = URL.create(
-    drivername="postgresql+psycopg2",
-    username=os.getenv("DB_USER", "postgres"),
-    password=os.getenv("DB_PASSWORD", "0000"),
-    host=os.getenv("DB_HOST", "localhost"),
-    port=int(os.getenv("DB_PORT", "5432")),
-    database=os.getenv("DB_NAME", "plataforma_python"),
-)
+# 1. COLE AQUI A URL QUE VOCÊ COPIOU DO NEON (Exatamente como veio do site):
+URL_DA_NEON = "postgresql://neondb_owner:npg_d0v9obmnSKxW@ep-wandering-haze-be15drjd-pooler.c-9.us-east-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+
+# 2. Ajuste automático para o driver do Python (psycopg2) que você já usa:
+URL_FORMATADA = URL_DA_NEON.replace("postgresql://", "postgresql+psycopg2://")
+
+# 3. Essa linha resolve dois problemas: usa o Neon agora no seu PC,
+# mas já deixa 100% pronto para o Render usar as variáveis de ambiente dele depois!
+DATABASE_URL = os.getenv("DATABASE_URL", URL_FORMATADA)
 
 # `pool_pre_ping` testa a conexão antes de usá-la, evitando erros caso o
 # PostgreSQL tenha reiniciado ou derrubado conexões ociosas.
