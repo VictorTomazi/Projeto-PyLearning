@@ -49,9 +49,17 @@ export default function Trilha() {
   }, [navigate]);
 
   function fazerLogout() {
-    localStorage.removeItem('usuario_id');
-    navigate('/');
+
+    // Abre a janelinha nativa do navegador perguntando se o usuário quer sair
+    const querMesmoSair = window.confirm("Tem certeza que deseja sair da sua conta?");
+    
+    // Só executa o logout se ele clicar em "OK"
+    if (querMesmoSair) {
+      localStorage.removeItem('usuario_id');
+      navigate('/');
+
   }
+}
 
   // 1. Descobre quais módulos existem no banco (ex: [1, 2])
   const modulos = [...new Set(licoes.map(l => l.id_modulo))];
@@ -84,8 +92,8 @@ export default function Trilha() {
                 </div>
               </div>
 
-              <button onClick={fazerLogout} style={{ background: 'transparent', border: 'none', color: '#888', cursor: 'pointer', textDecoration: 'underline', fontSize: '14px' }}>
-                Sair
+              <button onClick={fazerLogout} className="botao-sair-pilula">
+                    SAIR
               </button>
             </header>
 
