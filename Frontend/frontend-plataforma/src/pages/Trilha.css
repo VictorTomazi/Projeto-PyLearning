@@ -1,0 +1,63 @@
+/* Fundo fixo da tela inteira */
+.tela-fundo-trilha {
+  min-height: 100vh;
+  background-image: url('/Fundo-Login.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; /* Faz a imagem ficar parada enquanto você rola a página */
+  padding: 20px;
+}
+
+/* Película translúcida para facilitar a leitura */
+.conteudo-trilha {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 30px;
+  font-family: sans-serif;
+  background-color: rgba(255, 255, 255, 0.6); /* Fundo branco com 85% de opacidade */
+  border-radius: 20px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+/* Container de cada botão e seu título */
+.no-trilha {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 25px; /* Espaçamento vertical entre as lições */
+  position: relative;
+}
+
+/* O botão redondo 3D */
+.botao-circular {
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  background-color: #58CC02;
+  color: white;
+  font-size: 32px;
+  border: none;
+  /* A sombra grossa embaixo é o que dá o efeito de peça de jogo */
+  box-shadow: 0 8px 0 #58A700; 
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.1s ease;
+}
+
+/* Quando o botão é clicado, ele "afunda" */
+.botao-circular:active {
+  transform: translateY(8px);
+  box-shadow: 0 0 0 #58A700;
+}
+
+/* O título flutuante embaixo do botão */
+.titulo-licao {
+  margin-top: 15px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #777;
+  text-align: center;
+  max-width: 120px;
+}

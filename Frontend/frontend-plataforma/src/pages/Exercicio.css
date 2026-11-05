@@ -1,0 +1,37 @@
+/* A "janela" fixa que o usuário vê (esconde o resto do trilho) */
+.janela-carrossel {
+  overflow: hidden; 
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* O "trilho" comprido onde ficam todos os exercícios lado a lado */
+.trilho-carrossel {
+  display: flex;
+  transition: transform 0.5s ease-in-out; /* Esta linha cria a magia do deslizamento */
+}
+
+/* Cada exercício ocupa exatamente 100% do espaço da janela */
+.slide-licao {
+  min-width: 100%;
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+/* Um botão simples para você testar o avanço */
+.btn-continuar {
+  margin-top: 20px;
+  padding: 12px 24px;
+  background-color: #58CC02;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+}
