@@ -47,20 +47,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# CORS: permite que o frontend (em outra porta) chame esta API pelo navegador.
-# Em desenvolvimento liberamos qualquer porta de localhost/127.0.0.1 (o Vite muda
-# de porta quando a 5173 está ocupada). Em produção, defina CORS_ORIGINS
-# (separadas por vírgula) com o domínio real do frontend.
-origens_permitidas = [o.strip() for o in os.getenv("CORS_ORIGINS", "").split(",") if o.strip()]
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origens_permitidas,
-    allow_origin_regex=r"https?://(localhost|127\.0\.0\.1)(:\d+)?",
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-
 # --------------------------------------------------------------------------
 # Schemas (formato do JSON de entrada e saída)
 # --------------------------------------------------------------------------
