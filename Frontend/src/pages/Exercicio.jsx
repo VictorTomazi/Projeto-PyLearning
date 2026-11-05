@@ -134,8 +134,8 @@ export default function Exercicio() {
         </div>
       </div>
 
-      <button onClick={fazerLogout} style={{ background: 'transparent', border: 'none', color: '#888', cursor: 'pointer', textDecoration: 'underline', fontSize: '14px' }}>
-        Sair
+      <button onClick={fazerLogout} className="botao-sair-pilula">
+        SAIR
       </button>
     </header>
   );
@@ -153,7 +153,7 @@ export default function Exercicio() {
             onClick={() => navigate('/trilha')}
             style={{ marginTop: '20px' }}
           >
-            Voltar para o Mapa
+            Voltar para a trilha
           </button>
         </section>
       </main>

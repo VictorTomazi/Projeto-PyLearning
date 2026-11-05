@@ -74,3 +74,28 @@
     width: 90px;
   }
 }
+
+.botao-sair-pilula {
+  background-color: #ff4b4b; /* Vermelho para indicar saída */
+  color: white;
+  border: none;
+  border-radius: 25px; /* Isso cria o formato de pílula deitada */
+  padding: 8px 24px;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #cc0000; /* Sombra 3D gamificada */
+  transition: all 0.1s ease;
+  letter-spacing: 0.5px;
+}
+
+/* Efeito de afundar quando clica */
+.botao-sair-pilula:active {
+  transform: translateY(4px);
+  box-shadow: 0 0 0 #cc0000;
+}
+
+.botao-sair-pilula:focus-visible {
+  outline: 3px solid #1f2937;
+  outline-offset: 3px;
+}
