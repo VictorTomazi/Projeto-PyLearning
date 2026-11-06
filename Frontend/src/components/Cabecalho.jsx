@@ -19,7 +19,11 @@ export default function Cabecalho() {
   // Para mudar o que cada botão faz, edite apenas esta lista.
   const itens = [
     { rotulo: 'HOME', aoClicar: () => (naTrilha ? rolarPara(null) : navigate('/trilha')) },
-    { rotulo: 'TRILHA', aoClicar: () => (naTrilha ? rolarPara('trilha') : navigate('/trilha')) },
+    {
+      rotulo: 'TRILHA',
+      aoClicar: () => (naTrilha ? rolarPara('trilha') : navigate('/trilha')),
+      ativo: naTrilha || pathname === '/licao',
+    },
     { rotulo: 'SOBRE NÓS', aoClicar: () => navigate('/sobre'), ativo: pathname === '/sobre' },
     { rotulo: 'SUPORTE', aoClicar: () => rolarPara('suporte') }, // Desce até o rodapé (id="suporte")
   ];

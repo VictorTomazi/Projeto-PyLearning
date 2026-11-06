@@ -57,6 +57,31 @@
   margin-bottom: 30px;
 }
 
+/* Avisos dentro do formulário (erro e sucesso) */
+.aviso-formulario {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 14px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  text-shadow: none;
+}
+
+.aviso-formulario.erro {
+  background: #ffe5e5;
+  border: 2px solid #ff4b4b;
+  color: #a32020;
+}
+
+.aviso-formulario.sucesso {
+  background: #e6f9d0;
+  border: 2px solid #58cc02;
+  color: #2e6b10;
+}
+
 /* Estrutura dos inputs e labels */
 .grupo-campo {
   width: 100%;
@@ -73,7 +98,7 @@
   padding-left: 5px;
 }
 
-/* 1. Sombreado em todos os textos das telas de autenticação */
+/* Sombreado em todos os textos das telas de autenticação */
 .tela-autenticacao {
   text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.25);
 }
@@ -83,7 +108,7 @@
   text-shadow: none;
 }
 
-/* 2. O Container do Input Gamificado */
+/* O container do input gamificado */
 .campo-gamificado {
   display: flex;
   align-items: stretch;
@@ -103,7 +128,7 @@
   box-shadow: 0 0 0 3px rgba(88, 204, 2, 0.35);
 }
 
-/* 3. O Quadrado Verde do Ícone */
+/* O quadrado verde do ícone */
 .campo-icone {
   background: linear-gradient(180deg, #58CC02, #46A302); /* Degradê verde estilo Duolingo */
   padding: 0 15px;
@@ -115,7 +140,7 @@
   box-shadow: inset -2px 0 4px rgba(0,0,0,0.1); /* Dá profundidade dividindo o ícone do texto */
 }
 
-/* 4. A Área de Digitação */
+/* A área de digitação */
 .campo-gamificado input {
   flex-grow: 1;
   min-width: 0;
@@ -127,23 +152,28 @@
   color: #333;
 }
 
-/* Botão */
+/* Botão em pílula, com a mesma sombra "grossa" 3D do cabeçalho e dos outros botões */
 .botao-entrar-arredondado {
   background-color: #58CC02;
   color: white;
   border: none;
-  border-radius: 25px; /* Deixa o botão em formato de pílula */
+  border-radius: 25px;
   padding: 12px 40px;
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 0 #46A302;
   transition: transform 0.1s;
 }
 
-.botao-entrar-arredondado:active {
-  transform: translateY(2px);
-  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+.botao-entrar-arredondado:active:not(:disabled) {
+  transform: translateY(4px);
+  box-shadow: none;
+}
+
+.botao-entrar-arredondado:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .botao-entrar-arredondado:focus-visible {

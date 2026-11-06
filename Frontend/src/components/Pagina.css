@@ -1,0 +1,52 @@
+/* A página é uma coluna: cabeçalho, área central (cresce) e rodapé no fim */
+.pagina {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Imagem de paisagem cobrindo a tela inteira (o mesmo fundo das telas de login) */
+.pagina-fundo {
+  flex: 1;
+  box-sizing: border-box;
+  background-color: #8fd36b; /* Cor de segurança enquanto a imagem carrega */
+  background-image: url('/Fundo-Login.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; /* A imagem fica parada enquanto você rola a página */
+  padding: 30px 20px 40px;
+}
+
+.pagina-conteudo {
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Cartão branco translúcido onde fica o conteúdo, igual em todas as páginas */
+.painel-vidro {
+  background-color: rgba(255, 255, 255, 0.86);
+  border-radius: 20px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+  padding: 30px;
+  font-family: sans-serif;
+  scroll-margin-top: 90px; /* Deixa espaço para o cabeçalho fixo ao rolar até aqui */
+}
+
+/* Mensagens de carregamento/erro direto sobre a imagem */
+.aviso-pagina {
+  margin-top: 50px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #ffffff;
+  text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+@media (max-width: 600px) {
+  .pagina-fundo {
+    padding: 16px 10px 30px;
+  }
+
+  .painel-vidro {
+    padding: 18px 12px;
+  }
+}

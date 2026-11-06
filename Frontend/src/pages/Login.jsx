@@ -1,85 +1,89 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import './Login.css'; 
+import { useLocation, useNavigate, Link } from 'react-router-dom';
+import { enviarJson, salvarUsuarioId } from '../api';
+import './Login.css';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const [erro, setErro] = useState('');
+  const [enviando, setEnviando] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Mensagem enviada pela tela de registro (ex.: "Conta criada com sucesso!")
+  const aviso = location.state?.aviso;
 
   async function handleLogin(e) {
     e.preventDefault(); // Impede a página de recarregar
-    
-    // Se o usuário tentar logar com os campos vazios
+    setErro('');
+
     if (!email || !senha) {
-      alert("Por favor, preencha o email e a senha.");
+      setErro('Por favor, preencha o email e a senha.');
       return;
     }
 
+    setEnviando(true);
     try {
-      const resposta = await fetch('https://pylearning-backend.onrender.com/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        // Enviando os dados exatamente como o banco vai pedir
-        body: JSON.stringify({ email: email, senha: senha }) 
-      });
+      const dados = await enviarJson('/login', { email, senha });
 
-      const dados = await resposta.json();
-
-      if (resposta.ok) {
-        // Sucesso! Salva o ID e joga o aluno para o mapa de lições
-        localStorage.setItem('usuario_id', dados.id);
-        navigate('/trilha');
-      } else {
-        // Erro 401 (Senha errada ou email não existe)
-        alert(dados.detail || 'Email ou senha incorretos.'); 
-      }
-    } catch (erro) {
-      alert('Não foi possível conectar ao servidor. O backend está ligado?');
+      // Sucesso! Salva o ID e joga o aluno para o mapa de lições
+      salvarUsuarioId(dados.id);
+      navigate('/trilha');
+    } catch (e) {
+      // Erro 401 (senha errada ou email não existe) ou falha de conexão
+      setErro(e.message);
+    } finally {
+      setEnviando(false);
     }
   }
 
   return (
     <div className="tela-fundo">
-      {/* 1. Adicionamos a classe 'tela-autenticacao' no formulário para aplicar o sombreado nas letras */}
+      {/* A classe 'tela-autenticacao' aplica o sombreado nas letras */}
       <form className="formulario-transparente tela-autenticacao" onSubmit={handleLogin}>
-        
+
         <h2 className="titulo-verde">Login</h2>
-        
+
         <p className="texto-registro">
           Ainda não tem uma conta? <Link to="/registro" className="link-verde">Registre-se aqui.</Link>
         </p>
         <hr className="linha-verde" />
 
+        {aviso && <div className="aviso-formulario sucesso" role="status">{aviso}</div>}
+        {erro && <div className="aviso-formulario erro" role="alert">{erro}</div>}
+
         <div className="grupo-campo">
-          <label>Email</label>
-          {/* 2. Nova estrutura do input gamificado para o Email */}
+          <label htmlFor="login-email">Email</label>
           <div className="campo-gamificado">
             <div className="campo-icone">✉️</div>
-            <input 
-              type="email" 
+            <input
+              id="login-email"
+              type="email"
               placeholder="Digite seu email"
-              value={email} 
-              onChange={(e) => setEmail(e.target.value)} 
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
         </div>
 
         <div className="grupo-campo">
-          <label>Senha</label>
-          {/* 2. Nova estrutura do input gamificado para a Senha */}
+          <label htmlFor="login-senha">Senha</label>
           <div className="campo-gamificado">
             <div className="campo-icone">🔒</div>
-            <input 
-              type="password" 
+            <input
+              id="login-senha"
+              type="password"
               placeholder="Digite sua senha"
-              value={senha} 
-              onChange={(e) => setSenha(e.target.value)} 
+              value={senha}
+              onChange={(e) => setSenha(e.target.value)}
             />
           </div>
         </div>
 
-        <button type="submit" className="botao-entrar-arredondado">Entrar</button>
+        <button type="submit" className="botao-entrar-arredondado" disabled={enviando}>
+          {enviando ? 'Entrando...' : 'Entrar'}
+        </button>
 
       </form>
 

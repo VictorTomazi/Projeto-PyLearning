@@ -1,41 +1,14 @@
-/* A página é uma coluna: cabeçalho, área do mapa (cresce) e rodapé no fim */
-.pagina-trilha {
-  min-height: 100vh;
+/* Cada módulo é uma coluna de bolinhas */
+.modulo-trilha {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
 }
 
-/* Fundo da tela inteira (a largura total depende do #root sem limite, ver index.css) */
-.tela-fundo-trilha {
-  flex: 1;
-  box-sizing: border-box;
-  background-color: #8fd36b; /* Cor de segurança enquanto a imagem carrega */
-  background-image: url('/Fundo-Login.jpeg');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed; /* A imagem fica parada enquanto você rola a página */
-  padding: 30px 20px 40px;
-}
-
-/* Película translúcida para facilitar a leitura */
-.conteudo-trilha {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 30px;
-  font-family: sans-serif;
-  background-color: rgba(255, 255, 255, 0.6);
-  border-radius: 20px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-  scroll-margin-top: 90px; /* Deixa espaço para o cabeçalho fixo ao rolar até aqui */
-}
-
-/* Mensagens de carregamento/erro sobre a imagem */
-.aviso-trilha {
-  margin-top: 50px;
-  font-size: 20px;
-  font-weight: bold;
-  color: #ffffff;
-  text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.6);
+.titulo-modulo {
+  margin-bottom: 40px;
+  color: #333;
 }
 
 /* Container de cada botão e seu título */
@@ -65,10 +38,27 @@
   transition: all 0.1s ease;
 }
 
+/* Etapa já concluída: azul com um ✔ */
+.botao-circular.concluida {
+  background-color: #1CB0F6;
+  box-shadow: 0 8px 0 #1899D6;
+}
+
+/* Teste final: escuro (dourado quando concluído) */
+.botao-circular.final {
+  background-color: #3B3B3B;
+  box-shadow: 0 8px 0 #000000;
+}
+
+.botao-circular.final.concluida {
+  background-color: #F5B301;
+  box-shadow: 0 8px 0 #C48D00;
+}
+
 /* Quando o botão é clicado, ele "afunda" */
 .botao-circular:active {
   transform: translateY(8px);
-  box-shadow: 0 0 0 #58A700;
+  box-shadow: none;
 }
 
 .botao-circular:focus-visible {
@@ -76,7 +66,7 @@
   outline-offset: 4px;
 }
 
-/* O título flutuante embaixo do botão */
+/* O título embaixo do botão */
 .titulo-licao {
   margin-top: 15px;
   font-size: 14px;
@@ -84,39 +74,4 @@
   color: #555;
   text-align: center;
   max-width: 120px;
-}
-
-@media (max-width: 600px) {
-  .tela-fundo-trilha {
-    padding: 16px 10px 30px;
-  }
-
-  .conteudo-trilha {
-    padding: 18px 12px;
-  }
-}
-
-.botao-sair-pilula {
-  background-color: #ff4b4b; /* Vermelho para indicar saída */
-  color: white;
-  border: none;
-  border-radius: 25px; /* Isso cria o formato de pílula deitada */
-  padding: 8px 24px;
-  font-size: 14px;
-  font-weight: 800;
-  cursor: pointer;
-  box-shadow: 0 4px 0 #cc0000; /* Sombra 3D gamificada */
-  transition: all 0.1s ease;
-  letter-spacing: 0.5px;
-}
-
-/* Efeito de afundar quando clica */
-.botao-sair-pilula:active {
-  transform: translateY(4px);
-  box-shadow: 0 0 0 #cc0000;
-}
-
-.botao-sair-pilula:focus-visible {
-  outline: 3px solid #1f2937;
-  outline-offset: 3px;
 }
