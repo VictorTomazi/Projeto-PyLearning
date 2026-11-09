@@ -309,6 +309,37 @@ def fazer_login(dados: DadosLogin, db: Session = Depends(get_db)):
     return {"id": usuario.id, "email": usuario.email}
 
 
+class DadosPerfil(BaseModel):
+    senha_atual: str = Field(min_length=1, max_length=128)
+    nome: str | None = Field(default=None, min_length=1, max_length=150)
+    nova_senha: str | None = Field(default=None, min_length=1, max_length=128)
+
+@app.put("/api/usuarios/{usuario_id}/perfil", response_model=UsuarioPublico)
+def atualizar_perfil(usuario_id: int, dados: DadosPerfil, db: Session = Depends(get_db)):
+    """Altera o nome e/ou a senha do aluno. Exige a senha atual para confirmar."""
+    usuario = db.get(Usuario, usuario_id)
+    if usuario is None:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "Usuário não encontrado.")
+
+    if not verificar_senha(dados.senha_atual, usuario.senha):
+        raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Senha atual incorreta.")
+
+    if dados.nome is None and dados.nova_senha is None:
+        raise HTTPException(status.HTTP_400_BAD_REQUEST, "Nenhuma alteração foi informada.")
+
+    if dados.nome is not None:
+        nome_limpo = dados.nome.strip()
+        if not nome_limpo:
+            raise HTTPException(status.HTTP_400_BAD_REQUEST, "O nome não pode ficar vazio.")
+        usuario.nome = nome_limpo
+
+    if dados.nova_senha is not None:
+        usuario.senha = hash_senha(dados.nova_senha)  # Salva o HASH, nunca a senha pura
+
+    db.commit()
+    db.refresh(usuario)
+    return usuario
+
 if __name__ == "__main__":
     import uvicorn
 

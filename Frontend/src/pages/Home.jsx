@@ -1,22 +1,38 @@
 import { useNavigate } from 'react-router-dom';
 import Botao from '../components/Botao';
 import Pagina from '../components/Pagina';
-import './Sobre.css';
+import './Home.css';
 
-// ATENÇÃO: os textos abaixo são um modelo. Troque pelo texto de apresentação
-// do projeto/equipe antes de entregar o trabalho.
+// ATENÇÃO: os textos desta página são um modelo. Troque pelo texto de
+// apresentação do projeto/equipe antes de entregar o trabalho.
 const DIFERENCIAIS = [
   { icone: '📖', titulo: 'Teoria curta', texto: 'Conceitos explicados em poucas linhas, sem enrolação.' },
   { icone: '💻', titulo: 'Prática de verdade', texto: 'Você escreve código Python e vê o resultado na hora.' },
   { icone: '⭐', titulo: 'Jogo de aprender', texto: 'Ganhe XP, mantenha suas vidas e avance pela trilha.' },
 ];
 
-export default function Sobre() {
+export default function Home() {
   const navigate = useNavigate();
 
   return (
-    <Pagina largura={760}>
-      <div className="painel-vidro sobre">
+    <Pagina largura={860}>
+      {/* Destaque de boas-vindas */}
+      <section className="painel-vidro home-destaque">
+        <img src="/mascote.png" alt="Mascote PyLearning" className="home-mascote" />
+
+        <div className="home-destaque-texto">
+          <h1 className="home-titulo">Aprenda Python jogando</h1>
+          <p className="home-subtitulo">
+            Lições curtas, exercícios de código e uma trilha para você evoluir no seu ritmo.
+          </p>
+          <div className="home-acao">
+            <Botao texto="Ir para a trilha" variante="sucesso" onClick={() => navigate('/trilha')} />
+          </div>
+        </div>
+      </section>
+
+      {/* Sobre nós */}
+      <section className="painel-vidro home-sobre" id="sobre">
         <h2>Sobre nós</h2>
 
         <p>
@@ -28,10 +44,10 @@ export default function Sobre() {
           o quanto você já evoluiu.
         </p>
 
-        <div className="sobre-cartoes">
+        <div className="home-cartoes">
           {DIFERENCIAIS.map((item) => (
-            <div key={item.titulo} className="sobre-cartao">
-              <span className="sobre-icone" aria-hidden="true">
+            <div key={item.titulo} className="home-cartao">
+              <span className="home-icone" aria-hidden="true">
                 {item.icone}
               </span>
               <h3>{item.titulo}</h3>
@@ -39,11 +55,7 @@ export default function Sobre() {
             </div>
           ))}
         </div>
-
-        <div className="sobre-acao">
-          <Botao texto="Ir para a trilha" variante="sucesso" onClick={() => navigate('/trilha')} />
-        </div>
-      </div>
+      </section>
     </Pagina>
   );
 }

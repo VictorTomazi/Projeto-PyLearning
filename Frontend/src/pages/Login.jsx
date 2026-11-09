@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
-import { enviarJson, salvarUsuarioId } from '../api';
+import { enviarJson, salvarSessao } from '../api';
 import './Login.css';
 
 export default function Login() {
@@ -27,8 +27,8 @@ export default function Login() {
     try {
       const dados = await enviarJson('/login', { email, senha });
 
-      // Sucesso! Salva o ID e joga o aluno para o mapa de lições
-      salvarUsuarioId(dados.id);
+      // Sucesso! Salva o ID e o e-mail (mostrado no Perfil) e joga o aluno para o mapa de lições
+      salvarSessao({ id: dados.id, email: dados.email });
       navigate('/trilha');
     } catch (e) {
       // Erro 401 (senha errada ou email não existe) ou falha de conexão

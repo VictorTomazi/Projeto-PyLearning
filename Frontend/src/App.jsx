@@ -1,9 +1,10 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './pages/Login';
 import Registro from './pages/Registro';
+import Home from './pages/Home';
 import Trilha from './pages/Trilha';
 import Exercicio from './pages/Exercicio';
-import Sobre from './pages/Sobre';
+import Perfil from './pages/Perfil';
 import NaoEncontrada from './pages/NaoEncontrada';
 
 export default function App() {
@@ -16,14 +17,17 @@ export default function App() {
         {/* Rota para criar a conta */}
         <Route path="/registro" element={<Registro />} />
 
+        {/* Home: boas-vindas e "Sobre nós" (botão HOME do cabeçalho) */}
+        <Route path="/home" element={<Home />} />
+
         {/* O mapa de lições */}
         <Route path="/trilha" element={<Trilha />} />
 
         {/* A tela da lição (teoria, objetiva ou editor de código) */}
         <Route path="/licao" element={<Exercicio />} />
 
-        {/* Página "Sobre nós" (botão do cabeçalho) */}
-        <Route path="/sobre" element={<Sobre />} />
+        {/* Perfil: alterar nome e senha (botão PERFIL do cabeçalho) */}
+        <Route path="/perfil" element={<Perfil />} />
 
         {/* Qualquer outro endereço */}
         <Route path="*" element={<NaoEncontrada />} />

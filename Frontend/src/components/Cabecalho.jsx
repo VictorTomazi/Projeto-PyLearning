@@ -4,6 +4,7 @@ import './Cabecalho.css';
 export default function Cabecalho() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const naHome = pathname === '/home';
   const naTrilha = pathname === '/trilha';
 
   // Rola suavemente até o elemento com o id informado; sem id, volta ao topo da página.
@@ -18,13 +19,13 @@ export default function Cabecalho() {
 
   // Para mudar o que cada botão faz, edite apenas esta lista.
   const itens = [
-    { rotulo: 'HOME', aoClicar: () => (naTrilha ? rolarPara(null) : navigate('/trilha')) },
+    { rotulo: 'HOME', aoClicar: () => (naHome ? rolarPara(null) : navigate('/home')), ativo: naHome },
     {
       rotulo: 'TRILHA',
       aoClicar: () => (naTrilha ? rolarPara('trilha') : navigate('/trilha')),
       ativo: naTrilha || pathname === '/licao',
     },
-    { rotulo: 'SOBRE NÓS', aoClicar: () => navigate('/sobre'), ativo: pathname === '/sobre' },
+    { rotulo: 'PERFIL', aoClicar: () => navigate('/perfil'), ativo: pathname === '/perfil' },
     { rotulo: 'SUPORTE', aoClicar: () => rolarPara('suporte') }, // Desce até o rodapé (id="suporte")
   ];
 

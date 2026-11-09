@@ -1,0 +1,37 @@
+.perfil {
+  text-align: left;
+}
+
+.perfil h2 {
+  text-align: center;
+  margin-bottom: 24px;
+  color: #333;
+}
+
+/* No perfil o espaçamento vem do grupo do campo (evita lacunas duplas) */
+.perfil .campo-gamificado {
+  margin-bottom: 4px;
+}
+
+/* E-mail: aparência de campo bloqueado */
+.perfil .campo-gamificado.somente-leitura {
+  background-color: #f3f4f6;
+}
+
+.perfil .campo-gamificado.somente-leitura input {
+  color: #6b7280;
+  cursor: not-allowed;
+}
+
+.dica-campo {
+  margin-top: 6px;
+  padding-left: 5px;
+  font-size: 13px;
+  color: #555;
+}
+
+.perfil-separador {
+  border: none;
+  border-top: 2px solid #d1d5db;
+  margin: 8px 0 24px;
+}

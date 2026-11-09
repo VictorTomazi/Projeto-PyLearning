@@ -45,7 +45,18 @@ export function enviarJson(caminho, corpo, metodo = 'POST') {
 
 // --- Sessão do aluno (guardada no navegador) ---
 const CHAVE_USUARIO = 'usuario_id';
+const CHAVE_EMAIL = 'usuario_email';
 
 export const obterUsuarioId = () => localStorage.getItem(CHAVE_USUARIO);
-export const salvarUsuarioId = (id) => localStorage.setItem(CHAVE_USUARIO, id);
-export const limparSessao = () => localStorage.removeItem(CHAVE_USUARIO);
+export const obterEmail = () => localStorage.getItem(CHAVE_EMAIL);
+
+/** Chamada no login: guarda o id e o e-mail devolvidos pela API. */
+export function salvarSessao({ id, email }) {
+  localStorage.setItem(CHAVE_USUARIO, id);
+  if (email) localStorage.setItem(CHAVE_EMAIL, email);
+}
+
+export function limparSessao() {
+  localStorage.removeItem(CHAVE_USUARIO);
+  localStorage.removeItem(CHAVE_EMAIL);
+}

@@ -1,0 +1,131 @@
+/* --- Destaque de boas-vindas --- */
+.home-destaque {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  padding: 36px 30px;
+}
+
+.home-mascote {
+  width: 160px;
+  height: auto;
+  flex-shrink: 0;
+  animation: home-flutuar 3s ease-in-out infinite;
+}
+
+@keyframes home-flutuar {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-mascote {
+    animation: none;
+  }
+}
+
+.home-destaque-texto {
+  text-align: left;
+}
+
+.home-titulo {
+  font-size: 38px;
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+  margin: 0 0 12px;
+  color: #2e6b10;
+}
+
+.home-subtitulo {
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--text-h);
+  margin-bottom: 22px;
+}
+
+.home-acao {
+  max-width: 280px;
+}
+
+/* --- Sobre nós --- */
+.home-sobre {
+  margin-top: 24px;
+  text-align: left;
+}
+
+.home-sobre h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.home-sobre > p {
+  color: var(--text-h);
+  line-height: 1.7;
+  margin-bottom: 14px;
+}
+
+/* Três cartões lado a lado (empilham no celular) */
+.home-cartoes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 14px;
+  margin-top: 26px;
+}
+
+.home-cartao {
+  background: #ffffff;
+  border: 2px solid #d1d5db;
+  border-bottom-width: 4px; /* Efeito 3D, igual aos outros botões do site */
+  border-radius: 14px;
+  padding: 18px 16px;
+  text-align: center;
+}
+
+.home-icone {
+  display: block;
+  font-size: 34px;
+  margin-bottom: 8px;
+}
+
+.home-cartao h3 {
+  margin: 0 0 6px;
+  color: #2e6b10;
+  font-size: 17px;
+}
+
+.home-cartao p {
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+@media (max-width: 700px) {
+  .home-destaque {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+  }
+
+  .home-destaque-texto {
+    text-align: center;
+  }
+
+  .home-acao {
+    margin: 0 auto;
+  }
+
+  .home-titulo {
+    font-size: 30px;
+  }
+
+  .home-mascote {
+    width: 120px;
+  }
+}
