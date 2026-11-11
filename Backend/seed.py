@@ -27,6 +27,12 @@ from seguranca import hash_senha
 NOMES_MODULOS = {
     1: "Primeiros Comandos",
     2: "Operadores Aritméticos",
+    3: "Utilizando Módulos",
+    4: "Manipulando Textos",
+    5: "Condições Básicas",
+    6: "Condições Aninhadas",
+    7: "Estrutura de Repetição FOR",
+    8: "Estrutura de Repetição WHILE",
 }
 
 
