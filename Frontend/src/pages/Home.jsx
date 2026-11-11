@@ -18,7 +18,7 @@ export default function Home() {
     <Pagina largura={860}>
       {/* Destaque de boas-vindas */}
       <section className="painel-vidro home-destaque">
-        <img src="/mascote.png" alt="Mascote PyLearning" className="home-mascote" />
+        <img src="/mascote-sem-fundo.png" alt="Mascote PyLearning" className="home-mascote" />
 
         <div className="home-destaque-texto">
           <h1 className="home-titulo">Aprenda Python jogando</h1>
