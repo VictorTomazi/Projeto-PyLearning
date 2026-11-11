@@ -7,6 +7,25 @@ import './Trilha.css';
 
 const POSICOES_ZIGZAG = [0, 45, 75, 45, 0, -45, -75, -45];
 
+// Mapeamento com os títulos oficiais da nossa trilha
+const NOMES_MODULOS = {
+  1: "Primeiros Comandos",
+  2: "Operadores Aritméticos",
+  3: "Utilizando Módulos",
+  4: "Manipulando Textos",
+  5: "Condições Básicas",
+  6: "Condições Aninhadas",
+  7: "Estrutura de Repetição FOR",
+  8: "Estrutura de Repetição WHILE",
+  9: "Interrompendo Repetições",
+  10: "Variáveis Compostas - Tuplas",
+  11: "Variáveis Compostas - Listas",
+  12: "Variáveis Compostas - Listas Parte 2",
+  13: "Variáveis Compostas - Dicionários",
+  14: "Funções Parte 1",
+  15: "Funções Parte 2"
+};
+
 export default function Trilha() {
   const [licoes, setLicoes] = useState([]);
   const [usuario, setUsuario] = useState(null);
@@ -68,7 +87,10 @@ export default function Trilha() {
 
             return (
               <section key={`modulo-${numeroModulo}`} className="modulo-trilha">
-                <h2 className="titulo-modulo">Módulo {numeroModulo}</h2>
+                {/* Aqui está a mágica: puxando o nome do dicionário pelo número do módulo! */}
+                <h2 className="titulo-modulo">
+                  Módulo {numeroModulo}: {NOMES_MODULOS[numeroModulo] || "Título"}
+                </h2>
 
                 {etapasDoModulo.map((numeroDaEtapa, index) => {
                   const deslocamentoEixoX = POSICOES_ZIGZAG[index % POSICOES_ZIGZAG.length];

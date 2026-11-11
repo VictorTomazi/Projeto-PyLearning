@@ -9,6 +9,8 @@
 .titulo-modulo {
   margin-bottom: 40px;
   color: #333;
+  text-align: center;
+  padding: 0 15px; /* Uma margem extra nas laterais para telas pequenas */
 }
 
 /* Container de cada botão e seu título */

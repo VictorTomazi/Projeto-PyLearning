@@ -7,7 +7,6 @@ export default function Cabecalho() {
   const naHome = pathname === '/home';
   const naTrilha = pathname === '/trilha';
 
-  // Rola suavemente até o elemento com o id informado; sem id, volta ao topo da página.
   function rolarPara(id) {
     const secao = id ? document.getElementById(id) : null;
     if (secao) {
@@ -17,7 +16,6 @@ export default function Cabecalho() {
     }
   }
 
-  // Para mudar o que cada botão faz, edite apenas esta lista.
   const itens = [
     { rotulo: 'HOME', aoClicar: () => (naHome ? rolarPara(null) : navigate('/home')), ativo: naHome },
     {
@@ -26,24 +24,37 @@ export default function Cabecalho() {
       ativo: naTrilha || pathname === '/licao',
     },
     { rotulo: 'PERFIL', aoClicar: () => navigate('/perfil'), ativo: pathname === '/perfil' },
-    { rotulo: 'SUPORTE', aoClicar: () => rolarPara('suporte') }, // Desce até o rodapé (id="suporte")
+    { rotulo: 'SUPORTE', aoClicar: () => rolarPara('suporte') },
   ];
 
   return (
     <header className="cabecalho">
-      <nav className="cabecalho-menu" aria-label="Menu principal">
-        {itens.map((item) => (
-          <button
-            key={item.rotulo}
-            type="button"
-            className={`cabecalho-botao${item.ativo ? ' ativo' : ''}`}
-            onClick={item.aoClicar}
-            aria-current={item.ativo ? 'page' : undefined}
-          >
-            {item.rotulo}
-          </button>
-        ))}
-      </nav>
+      <div className="cabecalho-container">
+        {/* Nova área da Logo (Mascote + Texto) */}
+        <div 
+          className="cabecalho-logo" 
+          onClick={() => (naHome ? rolarPara(null) : navigate('/home'))}
+          aria-label="Ir para a página inicial"
+        >
+          <img src="/mascote.png" alt="Mascote PyLearning" className="logo-imagem" />
+          <span className="logo-texto">PyLearning</span>
+        </div>
+
+        {/* Menu de navegação original */}
+        <nav className="cabecalho-menu" aria-label="Menu principal">
+          {itens.map((item) => (
+            <button
+              key={item.rotulo}
+              type="button"
+              className={`cabecalho-botao${item.ativo ? ' ativo' : ''}`}
+              onClick={item.aoClicar}
+              aria-current={item.ativo ? 'page' : undefined}
+            >
+              {item.rotulo}
+            </button>
+          ))}
+        </nav>
+      </div>
     </header>
   );
 }

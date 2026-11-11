@@ -4,19 +4,54 @@
   top: 0;
   z-index: 100;
   background-color: #58cc02;
-  box-shadow: 0 4px 0 #46a302; /* Mesma sombra "grossa" dos botões 3D do site */
+  box-shadow: 0 4px 0 #46a302;
   padding: 0 16px;
 }
 
-/* Botões em fila, centralizados na barra */
-.cabecalho-menu {
+/* Novo container para separar a logo (esquerda) do menu (direita) */
+.cabecalho-container {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
   max-width: 1100px;
   margin: 0 auto;
+  min-height: 60px; /* Garante uma altura mínima para o mascote respirar */
+}
+
+/* Estilos da nova Logo (Mascote + Texto) */
+.cabecalho-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.cabecalho-logo:active {
+  transform: scale(0.96);
+}
+
+.logo-imagem {
+  width: 45px;
+  height: auto;
+  /* Uma leve sombra para destacar o mascote do fundo verde */
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.15));
+}
+
+.logo-texto {
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  /* Sombra no texto acompanhando a identidade 3D do site */
+  text-shadow: 0 2px 0 #46a302; 
+}
+
+/* Botões em fila */
+.cabecalho-menu {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .cabecalho-botao {
@@ -52,9 +87,30 @@
   outline-offset: -4px;
 }
 
+/* Responsividade para telas menores */
+@media (max-width: 768px) {
+  .cabecalho-container {
+    flex-direction: column;
+    justify-content: center;
+    padding: 10px 0 0 0;
+  }
+  
+  .logo-texto {
+    font-size: 20px;
+  }
+  
+  .logo-imagem {
+    width: 38px;
+  }
+}
+
 @media (max-width: 600px) {
   .cabecalho {
     padding: 0 6px;
+  }
+
+  .cabecalho-menu {
+    gap: 4px;
   }
 
   .cabecalho-botao {
