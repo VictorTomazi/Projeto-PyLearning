@@ -34,8 +34,6 @@
 .logo-imagem {
   width: 45px;
   height: auto;
-  /* Uma leve sombra para destacar o mascote do fundo verde */
-  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.15));
 }
 
 .logo-texto {

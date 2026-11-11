@@ -36,7 +36,7 @@ export default function Cabecalho() {
           onClick={() => (naHome ? rolarPara(null) : navigate('/home'))}
           aria-label="Ir para a página inicial"
         >
-          <img src="/mascote.png" alt="Mascote PyLearning" className="logo-imagem" />
+          <img src="/mascote-sem-fundo.png" alt="Mascote PyLearning" className="logo-imagem" />
           <span className="logo-texto">PyLearning</span>
         </div>
 
