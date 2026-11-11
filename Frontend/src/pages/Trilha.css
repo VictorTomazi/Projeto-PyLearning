@@ -10,15 +10,14 @@
   margin-bottom: 40px;
   color: #333;
   text-align: center;
-  padding: 0 15px; /* Uma margem extra nas laterais para telas pequenas */
+  padding: 0 15px;
 }
 
-/* Container de cada botão e seu título */
 .no-trilha {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 25px; /* Espaçamento vertical entre as lições */
+  margin-bottom: 25px;
   position: relative;
 }
 
@@ -31,7 +30,6 @@
   color: white;
   font-size: 32px;
   border: none;
-  /* A sombra grossa embaixo é o que dá o efeito de peça de jogo */
   box-shadow: 0 8px 0 #58A700;
   cursor: pointer;
   display: flex;
@@ -57,7 +55,6 @@
   box-shadow: 0 8px 0 #C48D00;
 }
 
-/* Quando o botão é clicado, ele "afunda" */
 .botao-circular:active {
   transform: translateY(8px);
   box-shadow: none;

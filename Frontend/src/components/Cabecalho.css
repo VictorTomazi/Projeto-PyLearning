@@ -1,4 +1,4 @@
-/* Barra verde fixa no topo; fica visível enquanto a página rola. */
+/* Barra verde fixa no topo */
 .cabecalho {
   position: sticky;
   top: 0;
@@ -8,7 +8,7 @@
   padding: 0 16px;
 }
 
-/* Novo container para separar a logo (esquerda) do menu (direita) */
+/* Container para separar a logo (esquerda) do menu (direita) */
 .cabecalho-container {
   display: flex;
   justify-content: space-between;
@@ -18,7 +18,7 @@
   min-height: 60px; /* Garante uma altura mínima para o mascote respirar */
 }
 
-/* Estilos da nova Logo (Mascote + Texto) */
+/* Estilos da Logo (Mascote + Texto) */
 .cabecalho-logo {
   display: flex;
   align-items: center;
@@ -41,7 +41,6 @@
   font-size: 24px;
   font-weight: 900;
   letter-spacing: 0.5px;
-  /* Sombra no texto acompanhando a identidade 3D do site */
   text-shadow: 0 2px 0 #46a302; 
 }
 
@@ -75,7 +74,6 @@
   background-color: rgba(255, 255, 255, 0.3);
 }
 
-/* Página atual */
 .cabecalho-botao.ativo {
   border-bottom-color: #ffffff;
 }

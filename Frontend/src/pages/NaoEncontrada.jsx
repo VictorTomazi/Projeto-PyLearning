@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import Botao from '../components/Botao';
 import Pagina from '../components/Pagina';
 
-// Aparece quando o endereço digitado não existe (rota "*" no App.jsx).
+// Aparece quando o endereço digitado não existe
 export default function NaoEncontrada() {
   const navigate = useNavigate();
 

@@ -1,10 +1,3 @@
-/* Estilos globais.
-   Duas mudanças em relação ao modelo padrão do Vite:
-   1. O #root não tem mais largura fixa de 1126px. Era isso que deixava faixas
-      sólidas nas laterais da Trilha (a imagem de fundo só cobria o miolo).
-   2. O site não segue mais o modo escuro do sistema. Ele fazia o fundo das
-      lições ficar preto e os textos claros. */
-
 :root {
   --text: #4b5563;
   --text-h: #1f2937;
@@ -12,7 +5,7 @@
   --border: #e5e7eb;
   --code-bg: #f3f4f6;
 
-  /* Verde da identidade do site (mesmo das telas de login e da trilha) */
+  /* Verde da identidade do site */
   --accent: #58cc02;
   --accent-dark: #46a302;
   --accent-bg: rgba(88, 204, 2, 0.12);

@@ -5,7 +5,7 @@
   flex-direction: column;
 }
 
-/* Imagem de paisagem cobrindo a tela inteira (o mesmo fundo das telas de login) */
+/* Imagem de paisagem cobrindo a tela inteira */
 .pagina-fundo {
   flex: 1;
   box-sizing: border-box;
@@ -13,7 +13,7 @@
   background-image: url('/Fundo-Login.jpeg');
   background-size: cover;
   background-position: center;
-  background-attachment: fixed; /* A imagem fica parada enquanto você rola a página */
+  background-attachment: fixed;
   padding: 30px 20px 40px;
 }
 

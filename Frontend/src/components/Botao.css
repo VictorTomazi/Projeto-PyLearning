@@ -27,21 +27,19 @@
   transform: none;
 }
 
-/* --- AS CORES DO SEU COLEGA ENTRAM AQUI --- */
-
-/* Botão padrão (ex: Azul ou Verde principal) */
+/* Botão padrão */
 .botao-primario {
   background-color: #1CB0F6; /* Cor principal */
   box-shadow: 0 4px 0 #1899D6; /* Sombra mais escura para o efeito 3D */
 }
 
-/* Botão de acerto (ex: Verde) */
+/* Botão de acerto */
 .botao-sucesso {
   background-color: #58CC02;
   box-shadow: 0 4px 0 #58A700;
 }
 
-/* Botão de erro (ex: Vermelho) */
+/* Botão de erro */
 .botao-erro {
   background-color: #FF4B4B;
   box-shadow: 0 4px 0 #EA2B2B;

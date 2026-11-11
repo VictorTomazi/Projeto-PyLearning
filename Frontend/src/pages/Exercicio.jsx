@@ -22,7 +22,7 @@ export default function Exercicio() {
   const [indice, setIndice] = useState(0);
 
   const [codigo, setCodigo] = useState(CODIGO_INICIAL); // Lições PRATICA
-  const [escolha, setEscolha] = useState(null); // Lições OBJETIVA (letra escolhida)
+  const [escolha, setEscolha] = useState(null); // Lições OBJETIVA
   const [resultado, setResultado] = useState(null);
   const [enviando, setEnviando] = useState(false);
   const [erro, setErro] = useState('');
@@ -45,7 +45,6 @@ export default function Exercicio() {
           chamarApi(`/usuarios/${usuarioId}`),
         ]);
 
-        // Fica só com as lições da etapa e do módulo escolhidos na trilha
         const licoesDaEtapa = listaLicoes.filter(
           (l) => l.id_etapa === etapaSelecionada && l.id_modulo === moduloSelecionado
         );

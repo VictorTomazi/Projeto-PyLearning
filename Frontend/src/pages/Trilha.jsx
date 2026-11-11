@@ -7,7 +7,7 @@ import './Trilha.css';
 
 const POSICOES_ZIGZAG = [0, 45, 75, 45, 0, -45, -75, -45];
 
-// Mapeamento com os títulos oficiais da nossa trilha
+// Títulos dos módulos da trilha
 const NOMES_MODULOS = {
   1: "Primeiros Comandos",
   2: "Operadores Aritméticos",
@@ -54,7 +54,7 @@ export default function Trilha() {
         chamarApi(`/usuarios/${usuarioId}/progresso`).then(setConcluidas).catch(() => {});
       } catch (e) {
         if (e.status === 404) {
-          // A conta não existe mais (ex.: banco recriado): volta para o login
+          // A conta não existe mais: volta para o login
           limparSessao();
           navigate('/');
           return;
@@ -67,7 +67,7 @@ export default function Trilha() {
     carregarTrilha();
   }, [navigate]);
 
-  // Descobre quais módulos existem no banco (ex: [1, 2])
+  // Descobre quais módulos existem no banco
   const modulos = [...new Set(licoes.map((l) => l.id_modulo))];
 
   return (
@@ -79,7 +79,6 @@ export default function Trilha() {
         <div className="painel-vidro" id="trilha">
           <PainelUsuario usuario={usuario} />
 
-          {/* Desenha cada módulo separado */}
           {modulos.map((numeroModulo) => {
             const licoesDoModulo = licoes.filter((l) => l.id_modulo === numeroModulo);
             // Etapas únicas dentro deste módulo (cada uma é uma "bolinha" do mapa)
@@ -87,7 +86,6 @@ export default function Trilha() {
 
             return (
               <section key={`modulo-${numeroModulo}`} className="modulo-trilha">
-                {/* Aqui está a mágica: puxando o nome do dicionário pelo número do módulo! */}
                 <h2 className="titulo-modulo">
                   Módulo {numeroModulo}: {NOMES_MODULOS[numeroModulo] || "Título"}
                 </h2>
@@ -117,7 +115,6 @@ export default function Trilha() {
                         type="button"
                         className={classes}
                         aria-label={concluida ? `${nomeDaEtapa} (concluída)` : nomeDaEtapa}
-                        // Envia o módulo e a etapa para a tela de lição
                         onClick={() => navigate('/licao', { state: { etapa: numeroDaEtapa, modulo: numeroModulo } })}
                       >
                         {ehTesteFinal ? '🏆' : concluida ? '✔' : '⭐'}

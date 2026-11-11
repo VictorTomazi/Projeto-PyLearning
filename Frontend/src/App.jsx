@@ -11,22 +11,22 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* A página inicial (/) é o Login */}
+        {/* A página inicial é o Login */}
         <Route path="/" element={<Login />} />
 
         {/* Rota para criar a conta */}
         <Route path="/registro" element={<Registro />} />
 
-        {/* Home: boas-vindas e "Sobre nós" (botão HOME do cabeçalho) */}
+        {/* Home: boas-vindas e "Sobre nós" */}
         <Route path="/home" element={<Home />} />
 
         {/* O mapa de lições */}
         <Route path="/trilha" element={<Trilha />} />
 
-        {/* A tela da lição (teoria, objetiva ou editor de código) */}
+        {/* A tela da lição */}
         <Route path="/licao" element={<Exercicio />} />
 
-        {/* Perfil: alterar nome e senha (botão PERFIL do cabeçalho) */}
+        {/* Perfil: alterar nome e senha */}
         <Route path="/perfil" element={<Perfil />} />
 
         {/* Qualquer outro endereço */}

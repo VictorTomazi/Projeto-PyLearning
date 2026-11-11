@@ -30,7 +30,6 @@ export default function Cabecalho() {
   return (
     <header className="cabecalho">
       <div className="cabecalho-container">
-        {/* Nova área da Logo (Mascote + Texto) */}
         <div 
           className="cabecalho-logo" 
           onClick={() => (naHome ? rolarPara(null) : navigate('/home'))}
@@ -40,7 +39,6 @@ export default function Cabecalho() {
           <span className="logo-texto">PyLearning</span>
         </div>
 
-        {/* Menu de navegação original */}
         <nav className="cabecalho-menu" aria-label="Menu principal">
           {itens.map((item) => (
             <button

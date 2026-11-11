@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { enviarJson } from '../api';
-import './Login.css'; // Login e Registro compartilham o mesmo visual
+import './Login.css'; // As páginas de Login e Registro compartilham o mesmo visual
 
 export default function Registro() {
   const [nome, setNome] = useState('');
@@ -41,7 +41,6 @@ export default function Registro() {
 
   return (
     <div className="tela-fundo">
-      {/* Mesmas classes do Login: 'tela-autenticacao' aplica o sombreado nas letras */}
       <form className="formulario-transparente tela-autenticacao" onSubmit={handleRegistro}>
 
         <h2 className="titulo-verde">Criar Conta</h2>

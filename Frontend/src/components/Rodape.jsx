@@ -1,6 +1,5 @@
 import './Rodape.css';
 
-// O id="suporte" é o destino do botão SUPORTE do cabeçalho.
 export default function Rodape() {
   return (
     <footer className="rodape" id="suporte">

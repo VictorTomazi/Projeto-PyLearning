@@ -7,7 +7,6 @@ export default function PainelUsuario({ usuario }) {
   const navigate = useNavigate();
 
   function sair() {
-    // Abre a janelinha nativa do navegador perguntando se o aluno quer sair
     if (window.confirm('Tem certeza que deseja sair da sua conta?')) {
       limparSessao();
       navigate('/');

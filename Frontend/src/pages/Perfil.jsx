@@ -3,13 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import Botao from '../components/Botao';
 import Pagina from '../components/Pagina';
 import { chamarApi, enviarJson, limparSessao, obterEmail, obterUsuarioId } from '../api';
-import './Login.css'; // Reaproveita os campos "gamificados" e os avisos de erro/sucesso
+import './Login.css'; // Reaproveita os campos usados e os avisos de erro/sucesso
 import './Perfil.css';
 
 export default function Perfil() {
   const navigate = useNavigate();
   const usuarioId = obterUsuarioId();
-  const email = obterEmail(); // Guardado no login; é só exibido, nunca enviado para alteração
+  const email = obterEmail(); // Guardado no login. É só exibido, nunca enviado para alteração
 
   const [nomeAtual, setNomeAtual] = useState(''); // Nome como está salvo no servidor
   const [nome, setNome] = useState(''); // Nome digitado no campo
@@ -35,7 +35,7 @@ export default function Perfil() {
         setNome(dados.nome);
       } catch (e) {
         if (e.status === 404) {
-          // A conta não existe mais: volta para o login
+          // A conta não existe mais, volta para o login
           limparSessao();
           navigate('/');
           return;
@@ -90,7 +90,7 @@ export default function Perfil() {
       setSenhaAtual('');
       setSucesso('Perfil atualizado com sucesso!');
     } catch (e) {
-      setErro(e.message); // Ex.: "Senha atual incorreta."
+      setErro(e.message);
     } finally {
       setEnviando(false);
     }

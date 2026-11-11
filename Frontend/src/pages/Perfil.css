@@ -8,12 +8,10 @@
   color: #333;
 }
 
-/* No perfil o espaçamento vem do grupo do campo (evita lacunas duplas) */
 .perfil .campo-gamificado {
   margin-bottom: 4px;
 }
 
-/* E-mail: aparência de campo bloqueado */
 .perfil .campo-gamificado.somente-leitura {
   background-color: #f3f4f6;
 }

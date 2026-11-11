@@ -56,7 +56,7 @@
   font-size: 14px;
   font-weight: 800;
   cursor: pointer;
-  box-shadow: 0 4px 0 #cc0000; /* Sombra 3D gamificada */
+  box-shadow: 0 4px 0 #cc0000;
   transition: all 0.1s ease;
   letter-spacing: 0.5px;
 }

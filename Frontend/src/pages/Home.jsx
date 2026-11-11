@@ -3,8 +3,7 @@ import Botao from '../components/Botao';
 import Pagina from '../components/Pagina';
 import './Home.css';
 
-// ATENÇÃO: os textos desta página são um modelo. Troque pelo texto de
-// apresentação do projeto/equipe antes de entregar o trabalho.
+// Revisar essa parte
 const DIFERENCIAIS = [
   { icone: '📖', titulo: 'Teoria curta', texto: 'Conceitos explicados em poucas linhas, sem enrolação.' },
   { icone: '💻', titulo: 'Prática de verdade', texto: 'Você escreve código Python e vê o resultado na hora.' },
@@ -16,7 +15,6 @@ export default function Home() {
 
   return (
     <Pagina largura={860}>
-      {/* Destaque de boas-vindas */}
       <section className="painel-vidro home-destaque">
         <img src="/mascote-sem-fundo.png" alt="Mascote PyLearning" className="home-mascote" />
 
@@ -31,7 +29,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Sobre nós */}
       <section className="painel-vidro home-sobre" id="sobre">
         <h2>Sobre nós</h2>
 

@@ -1,7 +1,7 @@
-import './Botao.css'; // Vamos criar esse arquivo de estilos no próximo passo
+import './Botao.css';
 
 export default function Botao({ texto, onClick, variante = 'primario', desabilitado = false }) {
-  // A 'variante' vai definir a cor do botão (primario, sucesso, erro, etc)
+  // A 'variante' vai definir a cor do botão
   const classeBotao = `botao-base botao-${variante}`;
 
   return (

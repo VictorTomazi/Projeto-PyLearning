@@ -11,7 +11,7 @@ export default function Login() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Mensagem enviada pela tela de registro (ex.: "Conta criada com sucesso!")
+  // Mensagem enviada pela tela de registro
   const aviso = location.state?.aviso;
 
   async function handleLogin(e) {
@@ -27,7 +27,7 @@ export default function Login() {
     try {
       const dados = await enviarJson('/login', { email, senha });
 
-      // Sucesso! Salva o ID e o e-mail (mostrado no Perfil) e joga o aluno para o mapa de lições
+      // Salva o ID e o e-mail (mostrado no Perfil) e joga o aluno para o mapa de lições
       salvarSessao({ id: dados.id, email: dados.email });
       navigate('/trilha');
     } catch (e) {
@@ -40,7 +40,6 @@ export default function Login() {
 
   return (
     <div className="tela-fundo">
-      {/* A classe 'tela-autenticacao' aplica o sombreado nas letras */}
       <form className="formulario-transparente tela-autenticacao" onSubmit={handleLogin}>
 
         <h2 className="titulo-verde">Login</h2>
