@@ -160,7 +160,7 @@ export default function Exercicio() {
         </div>
 
         <div className="area-exercicio-com-mascote">
-          <img src="/mascote.png" alt="Mascote PyLearning" className="mascote-exercicio" />
+          <img src="/mascote-sem-fundo.png" alt="Mascote PyLearning" className="mascote-exercicio" />
 
           {semVidas ? (
             <section className="cartao-licao centralizado">
