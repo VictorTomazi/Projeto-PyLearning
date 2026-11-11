@@ -9,7 +9,6 @@ Estrutura (documento "Modelagem de Dados e Arquitetura"):
 
     TRILHAS 1---N TRILHAS_MODULOS 1---N LICOES 1---N PROGRESSO_USUARIO N---1 USUARIOS
     USUARIOS 1---N TENTATIVAS N---1 LICOES
-    USUARIOS 1---N USUARIO_LIGA N---1 LIGAS
 
 Acréscimos ao documento, necessários para o que o app já faz:
     - licoes.titulo, licoes.tipo (TEORIA / OBJETIVA / PRATICA) e licoes.id_etapa
@@ -67,7 +66,6 @@ class Usuario(Base):
 
     progresso: Mapped[list["ProgressoUsuario"]] = relationship(back_populates="usuario", passive_deletes=True)
     tentativas: Mapped[list["Tentativa"]] = relationship(back_populates="usuario", passive_deletes=True)
-    ligas: Mapped[list["UsuarioLiga"]] = relationship(back_populates="usuario", passive_deletes=True)
 
     # Garantias no nível do banco: nada disso pode ficar negativo.
     __table_args__ = (
@@ -222,48 +220,4 @@ class Tentativa(Base):
     __table_args__ = (
         CheckConstraint("resultado IN ('SUCESSO', 'ERRO')", name="ck_tentativas_resultado"),
         Index("ix_tentativas_usuario_licao", "id_usuario", "id_licao"),
-    )
-
-
-# --------------------------------------------------------------------------
-# Tabela 07: LIGAS
-# --------------------------------------------------------------------------
-class Liga(Base):
-    """Liga competitiva (ex.: Bronze, Prata, Ouro)."""
-
-    __tablename__ = "ligas"
-
-    id: Mapped[int] = mapped_column("id_liga", primary_key=True)
-    nome: Mapped[str] = mapped_column(String(50), nullable=False)
-    nivel: Mapped[int] = mapped_column(Integer, nullable=False)  # Nível hierárquico (1 = mais baixa)
-
-    participacoes: Mapped[list["UsuarioLiga"]] = relationship(back_populates="liga")
-
-
-# --------------------------------------------------------------------------
-# Tabela 08: USUARIO_LIGA
-# --------------------------------------------------------------------------
-class UsuarioLiga(Base):
-    """Participação de um aluno em uma liga durante uma semana."""
-
-    __tablename__ = "usuario_liga"
-
-    id: Mapped[int] = mapped_column("id_usuario_liga", primary_key=True)
-    id_usuario: Mapped[int] = mapped_column(ForeignKey("usuarios.id_usuario", ondelete="CASCADE"), nullable=False)
-    id_liga: Mapped[int] = mapped_column(ForeignKey("ligas.id_liga"), nullable=False)
-    xp_semana: Mapped[int] = mapped_column(Integer, nullable=False, default=0, server_default="0")
-    semana_inicio: Mapped[date] = mapped_column(Date, nullable=False)
-    semana_fim: Mapped[date] = mapped_column(Date, nullable=False)
-
-    # Colocação no ranking da semana. É derivável de xp_semana (função RANK());
-    # foi mantida porque consta no documento de modelagem.
-    posicao: Mapped[int | None] = mapped_column(Integer)
-
-    usuario: Mapped["Usuario"] = relationship(back_populates="ligas")
-    liga: Mapped["Liga"] = relationship(back_populates="participacoes")
-
-    __table_args__ = (
-        UniqueConstraint("id_usuario", "semana_inicio", name="uq_usuario_liga_semana"),
-        CheckConstraint("semana_fim >= semana_inicio", name="ck_usuario_liga_periodo"),
-        CheckConstraint("xp_semana >= 0", name="ck_usuario_liga_xp_nao_negativo"),
     )

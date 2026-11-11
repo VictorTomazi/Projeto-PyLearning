@@ -3,9 +3,9 @@ seed.py — Cria as tabelas no PostgreSQL e carrega os dados iniciais.
 
 O que faz, nesta ordem:
     1. APAGA todas as tabelas do projeto (se existirem);
-    2. CRIA as tabelas a partir do models.py (é aqui que nascem os "CREATE TABLE");
+    2. CRIA as tabelas a partir do models.py;
     3. Insere: 1 trilha, os módulos e as lições de conteudo.py (com as
-       alternativas das objetivas), 3 ligas e 1 aluno de teste.
+       alternativas das objetivas) e 1 aluno de teste.
 
 ATENÇÃO: o passo 1 apaga TODOS os dados (alunos, XP, progresso...). Use apenas
 em desenvolvimento. Rode sempre que mudar o models.py ou o conteudo.py.
@@ -13,17 +13,18 @@ em desenvolvimento. Rode sempre que mudar o models.py ou o conteudo.py.
 Pré-requisito: o banco `plataforma_python` já precisa existir (crie vazio no
 pgAdmin 4: botão direito em "Databases" > Create > Database).
 
-Como rodar (na pasta do backend):   python seed.py
+Como rodar (na pasta do backend): python seed.py
 No PyCharm: abra este arquivo e clique em Run.
 """
+
 from sqlalchemy import text
 
 from conteudo import MODULOS_E_LICOES
 from database import Base, SessionLocal, engine
-from models import Liga, Licao, Modulo, OpcaoLicao, Trilha, Usuario
+from models import Licao, Modulo, OpcaoLicao, Trilha, Usuario
 from seguranca import hash_senha
 
-# Nomes dos módulos (os que não estiverem aqui ficam como "Módulo N").
+# Nomes dos módulos
 NOMES_MODULOS = {
     1: "Primeiros Comandos",
     2: "Operadores Aritméticos",
@@ -33,6 +34,13 @@ NOMES_MODULOS = {
     6: "Condições Aninhadas",
     7: "Estrutura de Repetição FOR",
     8: "Estrutura de Repetição WHILE",
+    9: "Interrompendo Repetições",
+    10: "Variáveis Compostas - Tuplas",
+    11: "Variáveis Compostas - Listas",
+    12: "Variáveis Compostas - Listas Parte 2",
+    13: "Variáveis Compostas - Dicionários",
+    14: "Funções Parte 1",
+    15: "Funções Parte 2",
 }
 
 
@@ -51,8 +59,6 @@ def popular() -> None:
     with SessionLocal() as db:
         # Login de teste: aluno@teste.com / teste123 (a senha é salva como hash)
         db.add(Usuario(nome="Aluno Teste", email="aluno@teste.com", senha=hash_senha("teste123")))
-
-        db.add_all([Liga(nome="Bronze", nivel=1), Liga(nome="Prata", nivel=2), Liga(nome="Ouro", nivel=3)])
 
         trilha = Trilha(nome="Python do Zero", descricao="Do primeiro print() aos primeiros programas.")
         db.add(trilha)
